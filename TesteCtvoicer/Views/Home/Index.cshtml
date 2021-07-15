@@ -1,0 +1,129 @@
+﻿@model ListaVeiculoViewModel
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+	<div class="col-lg-10 ml-auto mr-auto">
+		<div class="card">
+			<div class="card-header card-header-primary">
+				<h4 class="card-title">Lista de Veículos</h4>
+			</div>
+			<div class="card-body">
+				@if (ViewBag.Message != null)
+				{
+					<div class="alert alert-success" role="alert">
+						@ViewBag.Message
+					</div>
+				}
+
+				<div class="row">
+					<div class="col-lg-6">
+						<a rel="tooltip" class="btn btn-outline-success btn-sm btn-icon" href="@Url.Action("Create")">
+							<i class="material-icons">add</i> Incluir
+						</a>
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group form-inline pull-right pt-0">
+							@Html.TextBoxFor(t => t.Chassi, htmlAttributes: new { @class = "search form-control", placeholder = "Chassi" })
+
+							<button id="btnPesquisa" type="button" rel="tooltip" class="btn btn-outline-primary btn-sm btn-icon">
+								<i class="material-icons">search</i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="table-wrap">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="text-center">Código</th>
+								<th>Chassi</th>
+								<th>Tipo</th>
+								<th>Número de Passageiros</th>
+								<th>Cor</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var veiculo in Model.VeiculoSet)
+							{
+								<tr>
+									<td class="text-center">@veiculo.Id</td>
+									<td>@veiculo.Chassi</td>
+									<td>@veiculo.TipoDescricao</td>
+									<td>@veiculo.NumeroPassageiros</td>
+									<td>@veiculo.Cor</td>
+									<td class="td-actions text-right">
+										<a rel="tooltip" class="btn btn-outline-info btn-sm btn-icon" href="@Url.Action("Edit", new { id = veiculo.Id })">
+											<i class="material-icons">edit</i> Alterar
+										</a>
+										<a rel="tooltip" class="btn btn-outline-danger btn-sm btn-icon" href="@Url.Action("Delete", new { id = veiculo.Id })">
+											<i class="material-icons">delete</i> Excluir
+										</a>
+									</td>
+								</tr>
+							}
+
+							@if (!Model.VeiculoSet.Any())
+							{
+								if (!string.IsNullOrWhiteSpace(Model.Chassi))
+								{
+									<tr>
+										<td colspan="6" class="text-center">Nenhum veículo encontrado com parte do chassi "@(Model.Chassi)".</td>
+									</tr>
+								}
+								else
+								{
+									<tr>
+										<td colspan="6" class="text-center">Nenhum veículo encontrado.</td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Confirma a exclusão do veículo selecionado?</p>
+				<input type="text" name="veiculoId" id="veiculoId" value="" />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">Confirmar</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section scripts {
+	<script type="text/javascript">
+
+		_pesquisar = function () {
+			let chassi = $('#Chassi').val();
+			window.location.href = `?Chassi=${chassi}`;
+		};
+
+		$('#btnPesquisa').click(_pesquisar);
+
+		$('#Chassi').keyup(function ({ key }) {
+			if (key === "Enter")
+				_pesquisar();
+		});
+
+	</script>
+}

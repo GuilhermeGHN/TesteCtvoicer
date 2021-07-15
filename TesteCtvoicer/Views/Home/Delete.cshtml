@@ -1,0 +1,64 @@
+﻿@model VeiculoViewModel
+
+
+<div class="row">
+	<div class="col-lg-10 ml-auto mr-auto">
+		<div class="card">
+			<div class="card-header card-header-primary">
+				<h4 class="card-title">Exclusão de Veículo</h4>
+			</div>
+			<div class="card-body">
+				@using (Html.BeginForm())
+				{
+					@Html.HiddenFor(h => h.Id)
+
+					@if (ViewBag.Message != null)
+					{
+						<div class="alert alert-success" role="alert">
+							@ViewBag.Message
+						</div>
+					}
+
+					@if (ViewData.ModelState != null && ViewData.ModelState.ErrorCount > 0)
+					{
+						<div class="alert alert-danger" role="alert">
+							@Html.ValidationSummary()
+						</div>
+					}
+
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							@Html.LabelFor(l => l.Chassi)
+							@Html.DisplayFor(t => t.Chassi)
+							@Html.HiddenFor(h => h.Chassi)
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							@Html.LabelFor(l => l.Tipo)
+							@Html.DisplayFor(t => t.Tipo)
+							@Html.HiddenFor(h => h.Tipo)
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							@Html.LabelFor(l => l.NumeroPassageiros)
+							@Html.DisplayFor(t => t.NumeroPassageiros)
+							@Html.HiddenFor(h => h.NumeroPassageiros)
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							@Html.LabelFor(l => l.Cor)
+							@Html.DisplayFor(t => t.Cor)
+							@Html.HiddenFor(h => h.Cor)
+						</div>
+					</div>
+
+					<a rel="tooltip" class="btn btn-outline-primary btn-sm" href="@Url.Action("Index")">Voltar</a>
+					<button type="submit" class="btn btn-primary btn-sm">Excluir</button>
+				}
+			</div>
+		</div>
+	</div>
+</div>

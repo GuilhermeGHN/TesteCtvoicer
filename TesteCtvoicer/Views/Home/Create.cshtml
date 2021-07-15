@@ -1,0 +1,79 @@
+﻿@using TesteCtvoicer.Entities.Enums
+@model VeiculoViewModel
+
+
+<div class="row">
+	<div class="col-lg-10 ml-auto mr-auto">
+		<div class="card">
+			<div class="card-header card-header-primary">
+				<h4 class="card-title">Inclusão de Veículo</h4>
+			</div>
+			<div class="card-body">
+				@using (Html.BeginForm())
+				{
+					@if (ViewBag.Message != null)
+					{
+						<div class="alert alert-success" role="alert">
+							@ViewBag.Message
+						</div>
+					}
+
+					@if (ViewData.ModelState != null && ViewData.ModelState.ErrorCount > 0)
+					{
+						<div class="alert alert-danger" role="alert">
+							@Html.ValidationSummary()
+						</div>
+					}
+
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							@Html.LabelFor(l => l.Chassi)
+							@Html.TextBoxFor(t => t.Chassi, htmlAttributes: new { @class = "form-control", placeholder = "Chassi" })
+						</div>
+						<div class="form-group col-md-3">
+							@Html.LabelFor(l => l.Tipo)
+							@Html.DropDownListFor(d => d.Tipo, Html.GetEnumSelectList<TipoVeiculoEnum>(), "Tipo", htmlAttributes: new { @class = "form-control" })
+						</div>
+						<div class="form-group col-md-3">
+							@Html.LabelFor(l => l.NumeroPassageiros)
+							@Html.TextBoxFor(t => t.NumeroPassageiros, htmlAttributes: new { @class = "form-control", @readonly = "readonly", placeholder = "Nº de Passageiros" })
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							@Html.LabelFor(l => l.Cor)
+							@Html.TextBoxFor(t => t.Cor, htmlAttributes: new { @class = "form-control", placeholder = "Cor" })
+						</div>
+					</div>
+
+					<a rel="tooltip" class="btn btn-outline-primary btn-sm" href="@Url.Action("Index")">Voltar</a>
+					<button type="submit" class="btn btn-primary btn-sm">Cadastrar</button>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
+@section scripts {
+	<script type="text/javascript">
+
+		$('#Tipo').change(function () {
+			let tipoSelecionado = $('#Tipo').val();
+
+			switch (tipoSelecionado) {
+				case '1':
+					$('#NumeroPassageiros').val('42');
+					break;
+
+				case '2':
+					$('#NumeroPassageiros').val('2');
+					break;
+
+				default:
+					$('#NumeroPassageiros').val(null);
+					break;
+			}
+		});
+
+	</script>
+}
